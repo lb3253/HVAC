@@ -31,20 +31,21 @@ Then visit `http://localhost:8000`.
 
 ## Wiring up the lead form
 
-The contact form (`#leadForm` in `index.html`) currently submits to a placeholder:
+The contact section embeds a [Tally.so](https://tally.so) form via `<iframe>` + Tally's embed script:
 
 ```html
-<!-- REPLACE action="#" WITH YOUR TALLY.SO EMBED OR FORM ACTION URL -->
-<form id="leadForm" action="#" method="POST">
+<!-- Replace REPLACE_WITH_YOUR_FORM_ID with your actual Tally form ID from your share URL -->
+<iframe
+  data-tally-src="https://tally.so/embed/zx4qza?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
+  ...>
+</iframe>
 ```
 
-To connect it to a real form backend (e.g. [Tally.so](https://tally.so)):
+To point it at your own form:
 
-1. Create your form on Tally.so and copy its submission/action URL (or embed the Tally form directly and remove the custom `<form>` markup, if you'd prefer their hosted embed).
-2. Replace `action="#"` with your Tally endpoint URL.
-3. If you're posting directly to Tally's API/webhook endpoint instead of using their hosted form, you may also need to adjust the JS submit handler at the bottom of `index.html` (the `leadForm.addEventListener('submit', ...)` block) — currently it calls `e.preventDefault()` and swaps in a local "success" message (`#formSuccess`) rather than doing a real network request. You'll likely want to either:
-   - Let the form submit natively to Tally (remove `e.preventDefault()`), or
-   - Send the data via `fetch()` to Tally's endpoint and show the success message on a successful response.
+1. Create your form on Tally.so and grab its form ID from the share URL (`https://tally.so/forms/<FORM_ID>` or `https://tally.so/r/<FORM_ID>`).
+2. Replace `zx4qza` in the `data-tally-src` attribute with your form ID.
+3. Tally's own script (loaded inline right after the iframe) handles rendering, resizing, and submission — no extra JS wiring needed.
 
 ## Structure
 

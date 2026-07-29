@@ -438,62 +438,6 @@
     margin-bottom: 24px;
   }
 
-  .form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
-  .form-group { margin-bottom: 18px; }
-  .form-group label {
-    display: block;
-    font-size: 0.85rem;
-    font-weight: 600;
-    margin-bottom: 6px;
-  }
-  .form-group input,
-  .form-group select,
-  .form-group textarea {
-    width: 100%;
-    padding: 12px 14px;
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 0.95rem;
-    color: var(--navy);
-    background: var(--white);
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
-  }
-  .form-group textarea { resize: vertical; }
-  .form-group input:focus,
-  .form-group select:focus,
-  .form-group textarea:focus {
-    outline: none;
-    border-color: var(--sky);
-    box-shadow: 0 0 0 3px rgba(45, 156, 219, 0.15);
-  }
-
-  .form-submit { width: 100%; margin-top: 4px; }
-
-  .form-success {
-    display: none;
-    text-align: center;
-    padding: 40px 10px;
-  }
-  .form-success .icon {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    background: rgba(45, 156, 219, 0.1);
-    color: var(--sky);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.8rem;
-    margin: 0 auto 18px;
-  }
-  .form-success h3 { font-size: 1.25rem; font-weight: 800; margin-bottom: 8px; }
-  .form-success p { color: var(--text-muted); }
-
   /* ---------- Footer ---------- */
   .footer { background: #060D18; color: rgba(255,255,255,0.55); padding: 48px 0 28px; }
   .footer-inner {
@@ -564,7 +508,6 @@
     .hero-ctas .btn { width: 100%; }
 
     .services-grid { grid-template-columns: 1fr; }
-    .form-row { grid-template-columns: 1fr; }
     .contact-form-wrap { padding: 28px 22px; }
     .footer-inner { flex-direction: column; }
   }
@@ -713,56 +656,30 @@
       </div>
 
       <div class="contact-form-wrap">
-        <!-- Lead form: shown by default -->
-        <div id="leadFormContainer">
-          <h3>Request My Free Quote</h3>
-          <p>No obligation. No pressure. Just honest advice.</p>
+        <h3>Request My Free Quote</h3>
+        <p>No obligation. No pressure. Just honest advice.</p>
 
-          <!-- REPLACE action="#" WITH YOUR TALLY.SO EMBED OR FORM ACTION URL -->
-          <form id="leadForm" action="#" method="POST">
-            <div class="form-row">
-              <div class="form-group">
-                <label for="fullName">Full Name</label>
-                <input type="text" id="fullName" name="fullName" placeholder="John Smith" required>
-              </div>
-              <div class="form-group">
-                <label for="phone">Phone Number</label>
-                <input type="tel" id="phone" name="phone" placeholder="(972) 555-0123" required>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="email">Email Address</label>
-              <input type="email" id="email" name="email" placeholder="you@example.com" required>
-            </div>
-
-            <div class="form-group">
-              <label for="service">Service Needed</label>
-              <select id="service" name="service" required>
-                <option value="" disabled selected>Select a service</option>
-                <option value="AC Repair">AC Repair</option>
-                <option value="New Installation">New Installation</option>
-                <option value="Maintenance Plan">Maintenance Plan</option>
-                <option value="Heating Issue">Heating Issue</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="message">Tell us about your issue</label>
-              <textarea id="message" name="message" rows="4" placeholder="Briefly describe what's going on..."></textarea>
-            </div>
-
-            <button type="submit" class="btn btn-primary form-submit">Request My Free Quote</button>
-          </form>
-        </div>
-
-        <!-- Success message: hidden until form submit -->
-        <div id="formSuccess" class="form-success">
-          <div class="icon">&#10003;</div>
-          <h3>Thanks! We'll be in touch within the hour.</h3>
-          <p>A member of the Apex Air DFW team will reach out shortly to confirm your appointment.</p>
-        </div>
+        <!-- Replace REPLACE_WITH_YOUR_FORM_ID with your actual Tally form ID from your share URL -->
+        <iframe
+          data-tally-src="https://tally.so/embed/zx4qza?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
+          loading="lazy"
+          width="100%"
+          height="500"
+          frameborder="0"
+          marginheight="0"
+          marginwidth="0"
+          title="Apex Air DFW Contact Form">
+        </iframe>
+        <script>
+          var d=document,w="https://tally.so/widgets/embed.js",
+          v=typeof Tally!=="undefined"?Tally.loadEmbeds:function(){
+            var s=d.createElement("script");s.src=w;s.onload=function(){Tally.loadEmbeds()};
+            s.onerror=function(){d.querySelectorAll("[data-tally-src]:not([src])").forEach(function(e){
+              e.src=e.dataset.tallySrc})};d.body.appendChild(s)
+          };
+          if(d.readyState==="complete"){v()}else{w=="https://tally.so/widgets/embed.js"?
+          d.addEventListener("DOMContentLoaded",v):d.addEventListener("load",v)}
+        </script>
       </div>
     </div>
   </section>
@@ -826,19 +743,6 @@
     }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
 
     sections.forEach(section => observer.observe(section));
-
-    // ---------- Lead form submit handling ----------
-    const leadForm = document.getElementById('leadForm');
-    const leadFormContainer = document.getElementById('leadFormContainer');
-    const formSuccess = document.getElementById('formSuccess');
-
-    leadForm.addEventListener('submit', function (e) {
-      // Placeholder action="#" — once a real form action (e.g. Tally.so) is
-      // wired up, this preventDefault can be removed if a native redirect is preferred.
-      e.preventDefault();
-      leadFormContainer.style.display = 'none';
-      formSuccess.style.display = 'block';
-    });
 
     // ---------- Footer year ----------
     document.getElementById('year').textContent = new Date().getFullYear();
