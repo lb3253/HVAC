@@ -438,6 +438,19 @@
     margin-bottom: 24px;
   }
 
+  /* Tally embed wrapper — centered and width-capped so the form doesn't
+     stretch awkwardly wide on large screens. */
+  .tally-embed {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 24px 0;
+  }
+  .tally-embed iframe {
+    display: block;
+    width: 100%;
+    border: 0;
+  }
+
   /* ---------- Footer ---------- */
   .footer { background: #060D18; color: rgba(255,255,255,0.55); padding: 48px 0 28px; }
   .footer-inner {
@@ -659,27 +672,20 @@
         <h3>Request My Free Quote</h3>
         <p>No obligation. No pressure. Just honest advice.</p>
 
-        <!-- Replace REPLACE_WITH_YOUR_FORM_ID with your actual Tally form ID from your share URL -->
-        <iframe
-          data-tally-src="https://tally.so/embed/zx4qza?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
-          loading="lazy"
-          width="100%"
-          height="500"
-          frameborder="0"
-          marginheight="0"
-          marginwidth="0"
-          title="Apex Air DFW Contact Form">
-        </iframe>
-        <script>
-          var d=document,w="https://tally.so/widgets/embed.js",
-          v=typeof Tally!=="undefined"?Tally.loadEmbeds:function(){
-            var s=d.createElement("script");s.src=w;s.onload=function(){Tally.loadEmbeds()};
-            s.onerror=function(){d.querySelectorAll("[data-tally-src]:not([src])").forEach(function(e){
-              e.src=e.dataset.tallySrc})};d.body.appendChild(s)
-          };
-          if(d.readyState==="complete"){v()}else{w=="https://tally.so/widgets/embed.js"?
-          d.addEventListener("DOMContentLoaded",v):d.addEventListener("load",v)}
-        </script>
+        <!-- Tally embed. To swap in a different form, replace the ID in data-tally-src
+             (zx4Qza) with the form ID from your Tally share URL. -->
+        <div class="tally-embed">
+          <iframe
+            data-tally-src="https://tally.so/embed/zx4Qza?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
+            loading="lazy"
+            width="100%"
+            height="500"
+            frameborder="0"
+            marginheight="0"
+            marginwidth="0"
+            title="Request a free quote from Apex Air DFW">
+          </iframe>
+        </div>
       </div>
     </div>
   </section>
@@ -746,6 +752,19 @@
 
     // ---------- Footer year ----------
     document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+  <!-- Tally embed loader: loads Tally's widget script, falling back to pointing
+       the iframe at data-tally-src directly if the script can't be fetched. -->
+  <script>
+    var d=document,w="https://tally.so/widgets/embed.js",v=function(){
+      if(typeof Tally!=="undefined"){Tally.loadEmbeds();return}
+      d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach(function(e){
+        e.src=e.dataset.tallySrc})
+    };
+    if(typeof Tally!=="undefined"){v()}else if(d.querySelector('script[src="'+w+'"]')==null){
+      var s=d.createElement("script");s.src=w;s.onload=v;s.onerror=v;d.body.appendChild(s)
+    }
   </script>
 </body>
 </html>

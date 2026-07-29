@@ -34,18 +34,21 @@ Then visit `http://localhost:8000`.
 The contact section embeds a [Tally.so](https://tally.so) form via `<iframe>` + Tally's embed script:
 
 ```html
-<!-- Replace REPLACE_WITH_YOUR_FORM_ID with your actual Tally form ID from your share URL -->
-<iframe
-  data-tally-src="https://tally.so/embed/zx4qza?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
-  ...>
-</iframe>
+<div class="tally-embed">
+  <iframe
+    data-tally-src="https://tally.so/embed/zx4Qza?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
+    ...>
+  </iframe>
+</div>
 ```
 
 To point it at your own form:
 
 1. Create your form on Tally.so and grab its form ID from the share URL (`https://tally.so/forms/<FORM_ID>` or `https://tally.so/r/<FORM_ID>`).
-2. Replace `zx4qza` in the `data-tally-src` attribute with your form ID.
-3. Tally's own script (loaded inline right after the iframe) handles rendering, resizing, and submission — no extra JS wiring needed.
+2. Replace `zx4Qza` in the `data-tally-src` attribute with your form ID.
+3. Tally's own loader script (the last `<script>` block, just before `</body>`) handles rendering, resizing, and submission — no extra JS wiring needed.
+
+Sizing for the embed lives in the `.tally-embed` CSS rule in the `<style>` block.
 
 ## Structure
 
